@@ -1,169 +1,119 @@
 import streamlit as st
-# brain_tumor.py
 import torch
 import numpy as np
-from PIL import Image, ImageFilter, ImageDraw
-import os
-import matplotlib.pyplot as plt
-import torchvision
-from torchvision.io import read_image
-import torchvision.transforms as T
-import requests
-# pip install opencv-python
+from PIL import Image
 
-st.title("YOLOv5 Brain tumor detection")
+st.title("YOLOv5 Brain Tumor Detection")
 
 # ---------------------------------------------------------------------------------------------#
 ### Mode for Axial detection ###
 # File input #
 st.sidebar.header("Axial")
-uploaded_file = st.sidebar.file_uploader("Select image from your folder...", type=["jpg", "jpeg", "png"], key="file_uploader_1")
-# ---------------------------------------------------------------------------------------------#
+uploaded_file_axial = st.sidebar.file_uploader("Select image from your folder...", type=["jpg", "jpeg", "png"], key="file_uploader_axial")
+
 # Def model #
 @st.cache_resource
 def load_model_axial():
-    model_axial = torch.hub.load(
-        repo_or_dir='pages/yolov5',  # Укажите путь к папке с YOLOv5
+    return torch.hub.load(
+        repo_or_dir='pages/yolov5',
         model='custom',
         path='pages/brain_tumor_axial_best.pt',
         source='local'
     )
-    return model_axial
-# Variable for model #
-model_axial = load_model_axial()
-# ---------------------------------------------------------------------------------------------#
-# Confidence interval #
-# Определение диапазона значений для уверенности
-min_confidence = 0.0
-max_confidence = 1.0
-step = 0.01  # Шаг изменения
 
-# Использование select_slider для выбора уровня уверенности
-model_conf_axial = st.sidebar.select_slider(
-    "Model Confidence Selection:",
-    options=[round(i, 2) for i in list(np.arange(min_confidence, max_confidence + step, step))],
-    value=0.5  # Значение по умолчанию
-)
-# ---------------------------------------------------------------------------------------------#
-# Predict function #
+model_axial = load_model_axial()
+
+# Confidence interval for Axial
+model_conf_axial = st.sidebar.slider("Model Confidence Selection:", 0.0, 1.0, 0.5, 0.01)
+
+# Predict function for Axial
 def detect_axial(img):
     model_axial.conf = model_conf_axial
     with torch.inference_mode():
         results = model_axial(img)
-    result_img = results.render()[0]  # render() возвращает список изображений с аннотациями
-    result_pil = Image.fromarray(result_img)  # Преобразуем numpy array в PIL.Image
+    result_img = results.render()[0]
+    result_pil = Image.fromarray(result_img)
     st.image(result_pil, caption='Detected Axial image', use_container_width=True)
 
-# Predict plot #
-img = Image.open(uploaded_file).convert("RGB")
-st.image(img, caption='Non-detected Axial image.', use_container_width=True)
-if st.sidebar.button("Predict"):
-    img = Image.open(uploaded_file).convert("RGB")
-    detect_axial(img)
+if uploaded_file_axial is not None:
+    img_axial = Image.open(uploaded_file_axial).convert("RGB")
+    st.image(img_axial, caption='Non-detected Axial image.', use_container_width=True)
+    if st.sidebar.button("Predict Axial"):
+        detect_axial(img_axial)
+
 st.sidebar.header("--------------------------------------------")
 st.write('---')
-# ---------------------------------------------------------------------------------------------#
 
 # ---------------------------------------------------------------------------------------------#
 ### Mode for Coronal detection ###
-# File input #
 st.sidebar.header("Coronal")
-uploaded_file = st.sidebar.file_uploader("Select image from your folder...", type=["jpg", "jpeg", "png"], key = 'coronal')
-# ---------------------------------------------------------------------------------------------#
+uploaded_file_coronal = st.sidebar.file_uploader("Select image from your folder...", type=["jpg", "jpeg", "png"], key='file_uploader_coronal')
+
 # Def model #
 @st.cache_resource
 def load_model_coronal():
-    model_coronal = torch.hub.load(
-        repo_or_dir='pages/yolov5',  # Укажите путь к папке с YOLOv5
+    return torch.hub.load(
+        repo_or_dir='pages/yolov5',
         model='custom',
         path='pages/brain_tumor_coronal_best.pt',
         source='local'
-        )
-    return model_coronal
-# Variable for model #
-model_coronal = load_model_coronal()
-# ---------------------------------------------------------------------------------------------#
-# Confidence interval #
-# Определение диапазона значений для уверенности
-min_confidence = 0.0
-max_confidence = 1.0
-step = 0.01  # Шаг изменения
+    )
 
-# Использование select_slider для выбора уровня уверенности
-model_conf_coronal = st.sidebar.select_slider(
-    "Model Confidence Selection:",
-    options=[round(i, 2) for i in list(np.arange(min_confidence, max_confidence + step, step))],
-    value=0.5,
-    key = 'coronal_2'# Значение по умолчанию
-)
-# ---------------------------------------------------------------------------------------------#
-# Predict function #
+model_coronal = load_model_coronal()
+
+# Confidence interval for Coronal
+model_conf_coronal = st.sidebar.slider("Model Confidence Selection:", 0.0, 1.0, 0.5, 0.01, key='coronal_conf')
+
 def detect_coronal(img):
+    model_coronal.conf = model_conf_coronal
     with torch.inference_mode():
-        model_coronal.conf = model_conf_coronal
         results = model_coronal(img)
-    result_img = results.render()[0]  # render() возвращает список изображений с аннотациями
-    result_pil = Image.fromarray(result_img)  # Преобразуем numpy array в PIL.Image
+    result_img = results.render()[0]
+    result_pil = Image.fromarray(result_img)
     st.image(result_pil, caption='Detected Coronal image', use_container_width=True)
 
-# Predict plot #
-img = Image.open(uploaded_file).convert("RGB")
-st.image(img, caption='Non-detected Coronal image.', use_container_width=True)
-if st.sidebar.button("Predict", key = 'coronal_3'):
-    img = Image.open(uploaded_file).convert("RGB")
-    detect_coronal(img)
+if uploaded_file_coronal is not None:
+    img_coronal = Image.open(uploaded_file_coronal).convert("RGB")
+    st.image(img_coronal, caption='Non-detected Coronal image.', use_container_width=True)
+    if st.sidebar.button("Predict Coronal"):
+        detect_coronal(img_coronal)
+
 st.sidebar.header("--------------------------------------------")
 st.write('---')
-# ---------------------------------------------------------------------------------------------#
 
 # ---------------------------------------------------------------------------------------------#
 ### Mode for Sagittal detection ###
-# File input #
 st.sidebar.header("Sagittal")
-uploaded_file = st.sidebar.file_uploader("Select image from your folder...", type=["jpg", "jpeg", "png"], key = 'sagittal')
-# ---------------------------------------------------------------------------------------------#
+uploaded_file_sagittal = st.sidebar.file_uploader("Select image from your folder...", type=["jpg", "jpeg", "png"], key='file_uploader_sagittal')
+
 # Def model #
 @st.cache_resource
 def load_model_sagittal():
-    model_sagittal = torch.hub.load(
-        repo_or_dir='pages/yolov5',  # Укажите путь к папке с YOLOv5
+    return torch.hub.load(
+        repo_or_dir='pages/yolov5',
         model='custom',
         path='pages/brain_tumor_sagittal_best.pt',
         source='local'
-        )
-    return model_sagittal
-# Variable for model #
-model_sagittal = load_model_sagittal()
-# ---------------------------------------------------------------------------------------------#
-# Confidence interval #
-# Определение диапазона значений для уверенности
-min_confidence = 0.0
-max_confidence = 1.0
-step = 0.01  # Шаг изменения
+    )
 
-# Использование select_slider для выбора уровня уверенности
-model_conf_sagittal = st.sidebar.select_slider(
-    "Model Confidence Selection:",
-    options=[round(i, 2) for i in list(np.arange(min_confidence, max_confidence + step, step))],
-    value=0.5,
-    key = 'sagittal_2'# Значение по умолчанию
-)
-# ---------------------------------------------------------------------------------------------#
-# Predict function #
+model_sagittal = load_model_sagittal()
+
+# Confidence interval for Sagittal
+model_conf_sagittal = st.sidebar.slider("Model Confidence Selection:", 0.0, 1.0, 0.5, 0.01, key='sagittal_conf')
+
 def detect_sagittal(img):
+    model_sagittal.conf = model_conf_sagittal
     with torch.inference_mode():
-        model_sagittal.conf = model_conf_sagittal
         results = model_sagittal(img)
-    result_img = results.render()[0]  # render() возвращает список изображений с аннотациями
-    result_pil = Image.fromarray(result_img)  # Преобразуем numpy array в PIL.Image
+    result_img = results.render()[0]
+    result_pil = Image.fromarray(result_img)
     st.image(result_pil, caption='Detected Sagittal image', use_container_width=True)
 
-# Predict plot #
-img = Image.open(uploaded_file).convert("RGB")
-st.image(img, caption='Non-detected Sagittal image.', use_container_width=True)
-if st.sidebar.button("Predict", key = 'sagittal_3'):
-    img = Image.open(uploaded_file).convert("RGB")
-    detect_sagittal(img)
+if uploaded_file_sagittal is not None:
+    img_sagittal = Image.open(uploaded_file_sagittal).convert("RGB")
+    st.image(img_sagittal, caption='Non-detected Sagittal image.', use_container_width=True)
+    if st.sidebar.button("Predict Sagittal"):
+        detect_sagittal(img_sagittal)
+
 st.sidebar.header("--------------------------------------------")
 st.write('---')
-# ---------------------------------------------------------------------------------------------#

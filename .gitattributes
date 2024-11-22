@@ -2,3 +2,7 @@
 *.pt filter=lfs diff=lfs merge=lfs -text
 best_face.py filter=lfs diff=lfs merge=lfs -text
 best_face.pt filter=lfs diff=lfs merge=lfs -text
+brain_tumor_axial_best.pt filter=lfs diff=lfs merge=lfs -text
+brain_tumor_coronal_best.pt filter=lfs diff=lfs merge=lfs -text
+brain_tumor_sagittal_best.pt filter=lfs diff=lfs merge=lfs -text
+Forest.py filter=lfs diff=lfs merge=lfs -text
