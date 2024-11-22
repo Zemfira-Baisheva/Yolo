@@ -13,12 +13,12 @@ st.markdown("1. тренировочная выборка - 13 400 изобра�
 
 st.subheader("Метрики модели")
 
-conf_mat_face = Image.open('confusion_matrix_face.png')
-results_face = Image.open('results_face.png')
-pr_curve_face = Image.open('PR_curve_face.png')
-p_curve_face = Image.open('P_curve_face.png')
-r_curve_face = Image.open('R_curve_face.png')
-f1_curve_face = Image.open('F1_curve_face.png')
+conf_mat_face = Image.open('images_metrics/confusion_matrix_face.png')
+results_face = Image.open('images_metrics/results_face.png')
+pr_curve_face = Image.open('images_metrics/PR_curve_face.png')
+p_curve_face = Image.open('images_metrics/P_curve_face.png')
+r_curve_face = Image.open('images_metrics/R_curve_face.png')
+f1_curve_face = Image.open('images_metrics/F1_curve_face.png')
 
 st.markdown("### Графики Loss-функции")
 st.image(results_face, caption=' ', use_container_width=True)
