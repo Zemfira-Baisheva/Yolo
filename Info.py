@@ -39,5 +39,112 @@ st.markdown("### Матрица ошибок")
 st.image(conf_mat_face, caption=' ', use_container_width=True)
 
 
+st.write("### Детекция опухулей мозга по фотографии")
+
+st.write("### Axial")
+
+st.markdown("#### Число эпох - 200")
+st.markdown("#### Объем выборок:")
+st.markdown("1. тренировочная выборка - 310 изображений, 2. валидационная - 75 изображений")
+
+st.subheader("Метрики модели")
+
+conf_mat_ax = Image.open('images_metrics/axial/confusion_matrix.png')
+results_ax = Image.open('images_metrics/axial/results.png')
+pr_curve_ax = Image.open('images_metrics/axial/PR_curve.png')
+p_curve_ax = Image.open('images_metrics/axial/P_curve.png')
+r_curve_ax = Image.open('images_metrics/axial/R_curve.png')
+f1_curve_ax = Image.open('images_metrics/axial/F1_curve.png')
+
+st.markdown("### Графики Loss-функции")
+st.image(results_ax, caption=' ', use_container_width=True)
+
+st.markdown("### Precision-recall Кривая")
+st.image(pr_curve_ax, caption=' ', use_container_width=True)
+
+st.markdown("### F1-Кривая")
+st.image(f1_curve_ax, caption=' ', use_container_width=True)
+
+st.markdown("### Precision Кривая")
+st.image(p_curve_ax, caption=' ', use_container_width=True)
+
+st.markdown("### Recall Кривая")
+st.image(r_curve_ax, caption=' ', use_container_width=True)
+
+st.markdown("### Матрица ошибок")
+st.image(conf_mat_ax, caption=' ', use_container_width=True)
+
+
+
+st.write("### Coronal")
+
+st.markdown("#### Число эпох - 200")
+st.markdown("#### Объем выборок:")
+st.markdown("1. тренировочная выборка - 319 изображений, 2. валидационная - 78 изображений")
+
+st.subheader("Метрики модели")
+
+conf_mat_c = Image.open('images_metrics/coronal/confusion_matrix.png')
+results_c = Image.open('images_metrics/coronal/results.png')
+pr_curve_c = Image.open('images_metrics/coronal/PR_curve.png')
+p_curve_c = Image.open('images_metrics/coronal/P_curve.png')
+r_curve_c = Image.open('images_metrics/coronal/R_curve.png')
+f1_curve_c = Image.open('images_metrics/coronal/F1_curve.png')
+
+st.markdown("### Графики Loss-функции")
+st.image(results_c, caption=' ', use_container_width=True)
+
+st.markdown("### Precision-recall Кривая")
+st.image(pr_curve_c, caption=' ', use_container_width=True)
+
+st.markdown("### F1-Кривая")
+st.image(f1_curve_c, caption=' ', use_container_width=True)
+
+st.markdown("### Precision Кривая")
+st.image(p_curve_c, caption=' ', use_container_width=True)
+
+st.markdown("### Recall Кривая")
+st.image(r_curve_c, caption=' ', use_container_width=True)
+
+st.markdown("### Матрица ошибок")
+st.image(conf_mat_c, caption=' ', use_container_width=True)
+
+
+st.write("### Saggital")
+
+st.markdown("#### Число эпох - 200")
+st.markdown("#### Объем выборок:")
+st.markdown("1. тренировочная выборка - 264 изображений, 2. валидационная - 70 изображений")
+
+st.subheader("Метрики модели")
+
+conf_mat_s = Image.open('images_metrics/saggital/confusion_matrix.png')
+results_s = Image.open('images_metrics/saggital/results.png')
+pr_curve_s = Image.open('images_metrics/saggital/PR_curve.png')
+p_curve_s = Image.open('images_metrics/saggital/P_curve.png')
+r_curve_s = Image.open('images_metrics/saggital/R_curve.png')
+f1_curve_s = Image.open('images_metrics/saggital/F1_curve.png')
+
+st.markdown("### Графики Loss-функции")
+st.image(results_s, caption=' ', use_container_width=True)
+
+st.markdown("### Precision-recall Кривая")
+st.image(pr_curve_s, caption=' ', use_container_width=True)
+
+st.markdown("### F1-Кривая")
+st.image(f1_curve_s, caption=' ', use_container_width=True)
+
+st.markdown("### Precision Кривая")
+st.image(p_curve_s, caption=' ', use_container_width=True)
+
+st.markdown("### Recall Кривая")
+st.image(r_curve_s, caption=' ', use_container_width=True)
+
+st.markdown("### Матрица ошибок")
+st.image(conf_mat_s, caption=' ', use_container_width=True)
+
+
+
+
 
 
